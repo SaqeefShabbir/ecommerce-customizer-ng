@@ -1,0 +1,13 @@
+<div class="custom-toast">
+  <div class="icon">
+    <mat-icon *ngIf="toastPackage.toastType === 'success'">check_circle</mat-icon>
+    <mat-icon *ngIf="toastPackage.toastType === 'error'">error</mat-icon>
+    <mat-icon *ngIf="toastPackage.toastType === 'info'">info</mat-icon>
+    <mat-icon *ngIf="toastPackage.toastType === 'warning'">warning</mat-icon>
+  </div>
+  <div class="content">
+    <strong>{{ toastPackage.title }}</strong>
+    <p>{{ toastPackage.message }}</p>
+  </div>
+  <button class="close" (click)="dismiss()">✖</button>
+</div>

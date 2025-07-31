@@ -1,0 +1,19 @@
+mat-grid-tile {
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  }
+
+  &.selected {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 2px #333;
+  }
+
+  mat-icon {
+    color: white;
+    filter: drop-shadow(0 0 2px black);
+  }
+}

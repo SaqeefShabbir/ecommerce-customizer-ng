@@ -1,0 +1,8 @@
+<mat-grid-list cols="4" rowHeight="4:3">
+  <mat-grid-tile *ngFor="let color of colors" 
+                 (click)="selectColor(color)"
+                 [style.background]="color"
+                 [class.selected]="color === selectedColor">
+    <mat-icon *ngIf="color === selectedColor">check</mat-icon>
+  </mat-grid-tile>
+</mat-grid-list>

@@ -1,0 +1,58 @@
+<main class="confirmation-container">
+  <div *ngIf="isLoading" class="spinner-container">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Loading your order details...</p>
+  </div>
+
+  <mat-card *ngIf="error" class="error-card">
+    <mat-card-header>
+      <mat-card-title>Error Loading Order</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>{{ error }}</p>
+      <p>Please contact support if the problem persists.</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" routerLink="/">Back to Home</button>
+    </mat-card-actions>
+  </mat-card>
+
+  <mat-card *ngIf="orderDetails && !isLoading" class="confirmation-card">
+    <mat-card-header>
+      <mat-card-title>Order Confirmed!</mat-card-title>
+      <mat-card-subtitle>Thank you for your purchase</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div class="order-summary">
+        <div class="order-id">
+          <strong>Order ID:</strong> {{ orderDetails.id }}
+        </div>
+        <div class="order-date">
+          <strong>Date:</strong> {{ orderDetails.date | date:'medium' }}
+        </div>
+
+        <div class="order-items">
+          <h3>Items Purchased</h3>
+          <div *ngFor="let item of orderDetails.items" class="order-item">
+            <span>{{ item.name }}</span>
+            <span>{{ item.quantity }} × {{ formatCurrency(item.price, orderDetails.currency) }}</span>
+          </div>
+        </div>
+
+        <div class="order-total">
+          <strong>Total:</strong> {{ formatCurrency(orderDetails.amount, orderDetails.currency) }}
+        </div>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="downloadReceipt()">
+        <mat-icon>download</mat-icon> Download Receipt
+      </button>
+      <button mat-stroked-button (click)="handleNavigation()">
+        <mat-icon>shopping_bag</mat-icon> Continue Shopping
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</main>

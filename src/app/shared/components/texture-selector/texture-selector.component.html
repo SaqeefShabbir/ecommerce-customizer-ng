@@ -1,0 +1,38 @@
+<mat-grid-list cols="3" rowHeight="1:1" gutterSize="16px">
+  <mat-grid-tile 
+    *ngFor="let texture of textures"
+    (click)="selectTexture(texture.id)"
+    [class.selected]="texture == selectedTexture"
+    [matTooltip]="texture.name">
+    
+    <div class="texture-thumbnail-container">
+      <img [src]="texture.thumbnail" [alt]="texture.name" class="texture-thumbnail">
+      <mat-icon *ngIf="texture == selectedTexture" class="selected-icon">check_circle</mat-icon>
+    </div>
+  </mat-grid-tile>
+</mat-grid-list>
+
+<div class="texture-preview" *ngIf="selectedTexture as selected">
+  <h3>{{ selected.name }}</h3>
+  <img [src]="selected.preview" [alt]="selected.name + ' preview'" class="preview-image">
+  
+  <div class="texture-properties" *ngIf="selected.roughness !== undefined || selected.metallic !== undefined">
+    <div class="property" *ngIf="selected.roughness !== undefined">
+      <span>Roughness:</span>
+      <mat-progress-bar 
+        mode="determinate" 
+        [value]="selected.roughness * 100"
+        [color]="selected.roughness > 0.7 ? 'primary' : (selected.roughness < 0.3 ? 'accent' : 'warn')">
+      </mat-progress-bar>
+    </div>
+    
+    <div class="property" *ngIf="selected.metallic !== undefined">
+      <span>Metallic:</span>
+      <mat-progress-bar 
+        mode="determinate" 
+        [value]="selected.metallic * 100"
+        [color]="selected.metallic > 0.7 ? 'accent' : 'primary'">
+      </mat-progress-bar>
+    </div>
+  </div>
+</div>

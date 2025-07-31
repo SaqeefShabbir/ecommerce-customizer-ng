@@ -1,0 +1,97 @@
+<div class="cart-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Your Shopping Cart</mat-card-title>
+      <mat-card-subtitle *ngIf="cartItems.length > 0">
+        {{ cartItems.length }} item{{ cartItems.length > 1 ? 's' : '' }} in your cart
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div *ngIf="isLoading" class="loading-spinner">
+        <mat-spinner diameter="50"></mat-spinner>
+      </div>
+
+      <div *ngIf="!isLoading && cartItems.length === 0" class="empty-cart">
+        <mat-icon>remove_shopping_cart</mat-icon>
+        <h3>Your cart is empty</h3>
+        <p>Start customizing products to add them to your cart</p>
+        <button mat-raised-button color="primary" routerLink="/customize">
+          Start Customizing
+        </button>
+      </div>
+
+      <table *ngIf="!isLoading && cartItems.length > 0" mat-table [dataSource]="cartItems" class="cart-table">
+        <!-- Product Column -->
+        <ng-container matColumnDef="product">
+          <th mat-header-cell *matHeaderCellDef>Product</th>
+          <td mat-cell *matCellDef="let item">
+            <div class="product-info">
+              <img [src]="item.imageUrl" [alt]="item.name" class="product-image">
+              <div class="product-details">
+                <h4>{{ item.name }}</h4>
+                <p class="product-description">{{ item.shortDescription }}</p>
+              </div>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Customization Column -->
+        <ng-container matColumnDef="customization">
+          <th mat-header-cell *matHeaderCellDef>Customization</th>
+          <td mat-cell *matCellDef="let item">
+            <div *ngIf="item.customization">
+              {{ getCustomizationSummary(item.customization) }}
+            </div>
+            <div *ngIf="!item.customization">
+              No customization
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Price Column -->
+        <ng-container matColumnDef="price">
+          <th mat-header-cell *matHeaderCellDef>Price</th>
+          <td mat-cell *matCellDef="let item" class="price-cell">
+            ${{ item.price | number:'1.2-2' }}
+          </td>
+        </ng-container>
+
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let item; let i = index" class="actions-cell">
+            <button mat-icon-button color="warn" (click)="removeItem(i)" matTooltip="Remove item">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </mat-card-content>
+
+    <mat-card-actions *ngIf="!isLoading && cartItems.length > 0" class="cart-actions">
+      <button mat-button color="warn" (click)="clearCart()">
+        <mat-icon>delete_sweep</mat-icon>
+        Clear Cart
+      </button>
+      
+      <div class="spacer"></div>
+      
+      <div class="total-section">
+        <h3>Total: ${{ getTotalCost() | number:'1.2-2' }}</h3>
+        <button mat-raised-button 
+                color="primary" 
+                (click)="checkout()"
+                [disabled]="isCheckingOut">
+          <span *ngIf="!isCheckingOut">Proceed to Checkout</span>
+          <span *ngIf="isCheckingOut">Processing...</span>
+          <mat-icon *ngIf="!isCheckingOut">shopping_cart_checkout</mat-icon>
+          <mat-spinner *ngIf="isCheckingOut" diameter="20"></mat-spinner>
+        </button>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+</div>

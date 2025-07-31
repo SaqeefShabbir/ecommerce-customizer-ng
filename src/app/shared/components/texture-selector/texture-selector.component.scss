@@ -1,0 +1,78 @@
+mat-grid-tile {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  overflow: hidden;
+  border-radius: 8px;
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  &.selected {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 3px #3f51b5;
+  }
+
+  .texture-thumbnail-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    .texture-thumbnail {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .selected-icon {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      color: #3f51b5;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+    }
+  }
+}
+
+.texture-preview {
+  margin-top: 24px;
+  padding: 16px;
+  border-radius: 8px;
+  background: #f5f5f5;
+
+  h3 {
+    margin-top: 0;
+    color: #3f51b5;
+  }
+
+  .preview-image {
+    width: 100%;
+    max-height: 200px;
+    object-fit: contain;
+    margin-bottom: 16px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .texture-properties {
+    margin-top: 16px;
+
+    .property {
+      margin-bottom: 12px;
+
+      span {
+        display: block;
+        margin-bottom: 4px;
+        font-size: 14px;
+        color: #666;
+      }
+
+      mat-progress-bar {
+        height: 8px;
+        border-radius: 4px;
+      }
+    }
+  }
+}

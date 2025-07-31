@@ -1,0 +1,81 @@
+<div class="customizer-container" *ngIf="product">
+  <div class="product-view">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>{{ product.name }}</mat-card-title>
+        <mat-card-subtitle>Customize your product</mat-card-subtitle>
+      </mat-card-header>
+      
+      <div class="product-display">
+        <div class="product-image-container" [style.transform]="'rotateY(' + rotation + 'deg) scale(' + zoom + ')'">
+          <img [src]="product.baseImage" [alt]="product.name" 
+               [style.filter]="getTextureFilter()">
+          <div class="engraving" *ngIf="getFormControl('engravingText').value" 
+               [style.fontSize.px]="getFormControl('fontSize').value">{{ getFormControl('engravingText').value }}</div>
+        </div>
+        
+        <div class="view-controls">
+          <button mat-icon-button (click)="rotate('left')">
+            <mat-icon>rotate_left</mat-icon>
+          </button>
+          <button mat-icon-button (click)="rotate('right')">
+            <mat-icon>rotate_right</mat-icon>
+          </button>
+          <button mat-icon-button (click)="zoomInOut(0.1)">
+            <mat-icon>zoom_in</mat-icon>
+          </button>
+          <button mat-icon-button (click)="zoomInOut(-0.1)">
+            <mat-icon>zoom_out</mat-icon>
+          </button>
+        </div>
+      </div>
+      
+      <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="addToCart()">
+          <mat-icon>add_shopping_cart</mat-icon>
+          Add to Cart
+        </button>
+        <button mat-raised-button color="primary" (click)="viewCart()">
+          <mat-icon>shopping_cart</mat-icon>
+          View Cart
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  
+  <div class="customization-options">
+    <mat-tab-group>
+      <mat-tab label="Color">
+        <app-color-picker [(selectedColor)]="selectedColor"></app-color-picker>
+      </mat-tab>
+      
+      <mat-tab label="Texture">
+        <app-texture-selector [(selectedTexture)]="selectedTexture"></app-texture-selector>
+      </mat-tab>
+      
+      <mat-tab label="Engraving">
+        <form [formGroup]="customizationForm">
+          <!-- Engraving Text Field -->
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Engraving Text</mat-label>
+            <input 
+              matInput 
+              type="text"
+              formControlName="engravingText"
+              [formControl]="getFormControl('engravingText')"
+              placeholder="Engraving Text">
+          </mat-form-field>
+
+          <!-- Font Size Slider -->
+            <mat-label>Font Size ({{customizationForm.value.fontSize}}px)</mat-label>
+            <mat-slider 
+              min="12" 
+              max="48" 
+              step="1">
+               <input matSliderThumb [formControl]="getFormControl('fontSize')">
+            </mat-slider>
+        </form>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>
